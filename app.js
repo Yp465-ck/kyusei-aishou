@@ -29,7 +29,7 @@ function luckyMatch(owner, partner) {
    return ![5, owner.n, owner.m].includes(star) && [0,1,4].includes(distance);
  });
  const matches = [partner.n, partner.m].flatMap((star, i) =>
-   candidates.includes(star) ? [stars[i] + '・' + names[star]] : []);
+   candidates.includes(star) ? [{star, role: stars[i]}] : []);
  return { candidates, matches };
 }
 function render(){
@@ -40,17 +40,29 @@ function render(){
  const mutual = hits.every(Boolean) ? '互いの最大吉方を持ち合っています。' :
    hits[0] ? 'お相手があなたの最大吉方を持っています。' :
    hits[1] ? 'あなたがお相手の最大吉方を持っています。' : 'どちらの方向にも該当する星はありません。';
- const luckyCards = directions.map(({candidates,matches},i) =>
-   '<article><h3>'+people[i]+'の最大吉方</h3><p>'+candidates.map(star=>names[star]).join('・')+
-   '</p><p>'+people[1-i]+'の星で一致：'+(matches.join('、') || '該当なし')+'</p></article>').join('');
+ const luckyCards = directions.map(({candidates,matches},i) => {
+   const chips = candidates.map(star => {
+     const hit = matches.some(match => match.star === star);
+     return '<span class="chip '+(hit?'hit':'')+'">'+(hit?'✓ ':'')+names[star]+'</span>';
+   }).join('');
+   const found = matches.map(match => '<span class="chip hit">✓ '+match.role+'・'+names[match.star]+'</span>').join('');
+   return '<article><h3>'+people[i]+'の最大吉方</h3><div>'+chips+'</div><p>'+people[1-i]+'の星で一致</p>'+(found || '今回は該当なし')+'</article>';
+ }).join('');
+ const counts = [0,0,0];
  let sum=0,special=false,cards='';
  [a.n,a.m].forEach((n,i)=>[b.n,b.m].forEach((m,j)=>{
  const x=element[n],y=element[m],diff=mod(y-x,5),score=diff===0?0:[1,4].includes(diff)?1:-1;
  const f=diff===1||diff===2?x:y,t=f===x?y:x,rule=n+m===10&&Math.min(n,m)===1;
- special||=rule;sum+=score;
+ counts[score+1]++;special||=rule;sum+=score;
  cards+='<article><h3>あなたの'+stars[i]+' × お相手の'+stars[j]+'</h3><div class="pair">'+diagram(x,y,f,t)+'<div>'+names[n]+' × '+names[m]+'<h2 class="score">'+['相克 −1','比和 0','相生 ＋1'][score+1]+'点</h2>'+ (score===0?'同じ五行':elements[f]+'が'+elements[t]+(score>0?'を生む':'を剋す'))+(rule?'<p>一白・九紫の特例</p>':'')+'</div></div></article>'
  }));
- get('result').innerHTML='<h2>鑑定結果</h2><section class="summary">4つの関係の合計　<strong>'+sum+' 点</strong><p>'+(special?'一白・九紫の特例を優先します。講座では、短期的には結びつきが強く、親密な関係を長く続けるには難しさがあると読みます。':sum>=0?'総合的に相性は良好です。':'総合的には、歩み寄りが必要な相性です。')+'</p><p>最大吉方：'+mutual+'</p></section><h2>ふたりの星</h2><div class="grid">'+[a,b].map((p,i)=>'<article><h3>'+people[i]+'</h3>本命　'+names[p.n]+'　／　月命　'+names[p.m]+(p.raw!==p.m?'<p>同数の読み替え　'+names[p.raw]+' → '+names[p.m]+'</p>':'')+(p.unknown?'<p>出生時刻は12:00で仮判定</p>':'')+'<details><summary>早見表で確認</summary><p>'+p.year+'年の本命星は'+names[p.n]+'。'+p.start.replace('T',' ')+'（日本時間）から始まる'+p.month+'月の行と、本命星の列の交点は'+names[p.raw]+'です。</p></details></article>').join('')+'</div><h2>五行で見る4つの関係</h2><div class="grid">'+cards+'</div><h2>最大吉方の持ち合い</h2><p>それぞれの最大吉方を、もう一人の本命星・月命星と照合します。</p><div class="grid">'+luckyCards+'</div>'
+ const verdict = special ? '短期では結びつきやすく、長く付き合うほど距離の取り方が大切な二人です。' :
+   hits.every(Boolean) ? '互いの最大吉方を持ち合う、総合的にとても良い相性です。' :
+   sum >= 0 ? '総合的に良好な相性です。' : '違いを言葉にすることで、歩み寄りやすい二人です。';
+ const advice = special ? '一白水星と九紫火星の組み合わせがあるため、長期的な関係には講座の特例を優先します。' :
+   counts[0] ? '相克が出た場面では、何を大切にしたいかを互いに聞いてみましょう。' :
+   '息が合う場面で、相手のどんな言葉や行動が助けになったか伝えてみましょう。';
+ get('result').innerHTML='<h2>鑑定結果</h2><section class="summary"><strong>'+verdict+'</strong><p>'+advice+'</p><p>最大吉方：'+mutual+'</p><small>五行の採点　相生 '+counts[2]+'件 ／ 比和 '+counts[1]+'件 ／ 相克 '+counts[0]+'件　合計 '+sum+' 点</small></section><h2>ふたりの星</h2><div class="grid">'+[a,b].map((p,i)=>'<article><h3>'+people[i]+'</h3>本命　'+names[p.n]+'　／　月命　'+names[p.m]+(p.raw!==p.m?'<p>同数の読み替え　'+names[p.raw]+' → '+names[p.m]+'</p>':'')+(p.unknown?'<p>出生時刻は12:00で仮判定</p>':'')+'<details><summary>早見表で確認</summary><p>'+p.year+'年の本命星は'+names[p.n]+'。'+p.start.replace('T',' ')+'（日本時間）から始まる'+p.month+'月の行と、本命星の列の交点は'+names[p.raw]+'です。</p></details></article>').join('')+'</div><h2>五行で見る4つの関係</h2><div class="grid">'+cards+'</div><h2>最大吉方の持ち合い</h2><p>それぞれの最大吉方を、もう一人の本命星・月命星と照合します。</p><div class="grid">'+luckyCards+'</div>'
 }
 get('form').oninput=e=>{get('result').innerHTML='';const i=e.target.id.slice(-1);if(e.target.id.startsWith('d')){get('gender'+i).hidden=true;get('g'+i).value='';get('err'+i).textContent=''}if(e.target.id.startsWith('t'))get('u'+i).checked=false;if(e.target.id.startsWith('u')&&e.target.checked)get('t'+i).value=''};
 get('form').onsubmit=e=>{e.preventDefault();render();(document.querySelector('.err:not(:empty)')||get('result')).scrollIntoView({behavior:'smooth',block:'center'})};
