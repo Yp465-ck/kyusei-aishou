@@ -147,7 +147,7 @@ const DESC=['','学びや準備を重ねて、これからのための土台を�
 const MIND=['','結果を焦らず、経験を積んで土台を固めましょう。','いろいろ試して、方向性を少しずつ整えましょう。','思いついたことを行動に移し、外の世界と関わりましょう。','高望みも大切。新しい場所や人との出会いを増やしましょう。','すべて自分で抱えず、周囲に相談して任せる視点を持ちましょう。','努力を振り返り、周りの人への感謝を忘れずに。','起こることを受け止めて、周囲の力を上手に借りましょう。','自分の希望だけでなく、求められる役割にも目を向けましょう。','これまでを整理し、次のサイクルへ向けた余白を作りましょう。'];
 const $=id=>document.getElementById(id);
 const mod9=n=>((n-1)%9+9)%9+1;
-const state={star:6,year:2026,mode:'annual'};
+const state={star:6,year:Number(new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Tokyo',year:'numeric'}).format(new Date())),mode:'annual'};
 function chartYear(y){const c=mod9(11-y%9);return FIXED.map(n=>mod9(n+c-5))}
 function reading(year,star){
  const annual=chartYear(year),index=annual.indexOf(star);
