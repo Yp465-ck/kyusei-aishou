@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#f9f7f3">
-<title>九星気学｜二人の相性診断</title>
+<title>九星気学｜相性鑑定</title>
 <style>
 
 :root{--bg:#f8f6f2;--paper:#fffefa;--ink:#282621;--muted:#79746e;--line:#e8e1d7;--gold:#b18b49;--gold-d:#8b692f;--light-gold:#f9f0de;--green:#387d71;--sea:#eaf6f1;--blue:#4876a3;--light-blue:#edf3fb;--red:#b76a61;--rose:#fbf0ec;--dark:#2a2622;--shadow:0 12px 35px rgba(50,40,27,.055)}
@@ -54,10 +54,30 @@
 .matched-roles{display:flex;flex-wrap:wrap;gap:7px}
 .matched-role{display:inline-flex;align-items:center;border:1px solid #6b9a83;background:#d8ede1;color:#19583e;padding:7px 10px;border-radius:9px;font-weight:700;font-size:12px}
 
+
+/* 九星気学ツール：他ページへ拡張しやすい共通ナビ */
+.top-inner{gap:14px}
+.brand-link{color:#f6ebd5;text-decoration:none;white-space:nowrap}
+.brand-link:hover{color:#f3d8a5}
+.site-nav{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.nav-item{color:#eee2cc;text-decoration:none;white-space:nowrap;font-size:12px;font-weight:700;padding:8px 11px;border-radius:7px}
+.nav-item:hover{background:rgba(255,255,255,.11);color:#fff}
+.nav-item.active{background:#356b54;color:white}
+.nav-item.nav-soon{color:#bcb1a1;cursor:default}
+.nav-soon small{font-weight:400;font-size:9px;margin-left:3px}
+.nav-out{border:1px solid rgba(236,220,190,.5);margin-left:3px}
+.year-close{display:grid;place-items:center;padding:0;line-height:1}
+.year-close>span{display:block;line-height:1;transform:translateY(-1px)}
+@media(max-width:760px){
+ .top-inner{height:auto;min-height:58px;flex-wrap:wrap;padding:13px 0 8px;gap:9px}
+ .site-nav{width:100%;overflow-x:auto;justify-content:flex-start;gap:5px;padding:2px 0 4px;scrollbar-width:thin}
+ .nav-item{font-size:12px;padding:7px 10px}
+ .brand-link{font-size:16px}
+}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="top-inner"><div class="brand">九星気学 │ 相性診断</div><div class="top-note">本命星・月命星で診断</div></div></header>
+<header class="topbar"><div class="top-inner"><a class="brand brand-link" href="/" aria-label="九星気学ツール ホーム">九星気学ツール</a><nav class="site-nav" aria-label="九星気学ツールのメニュー"><a href="/" class="nav-item active" aria-current="page">相性鑑定</a><a href="/biorhythm/" class="nav-item">バイオリズム</a><span class="nav-item nav-soon" title="準備中">吉方位 <small>準備中</small></span><a class="nav-item nav-out" href="https://uranai-birthday.vercel.app/" target="_blank" rel="noopener noreferrer">総合鑑定 <span aria-hidden="true">↗</span></a></nav></div></header>
 <main class="page">
 <div class="hero"><div class="eyebrow">NINE STAR KI · COMPATIBILITY</div><h1>二人のご縁を、読み解く。</h1><p>生年月日から、本命星と月命星の相性を確認できます。</p><div class="gold-rule"></div></div>
 <section class="glass entry" aria-label="生年月日入力"><h2 class="section-h"><span class="secnum">1</span> 二人の情報を入力</h2><div class="people">
@@ -70,13 +90,13 @@
 <div class="star-panels"><div class="glass star-person"><div class="star-label"><span class="dot"></span> あなたの九星</div><div class="star-main"><div><div class="mini-title">本命星</div><strong id="a-year-star"></strong></div><span class="arrow">×</span><div><div class="mini-title">月命星</div><strong id="a-month-star"></strong></div></div><div id="a-adjust" class="star-foot"></div></div><div class="glass star-person"><div class="star-label"><span class="dot"></span> お相手の九星</div><div class="star-main"><div><div class="mini-title">本命星</div><strong id="b-year-star"></strong></div><span class="arrow">×</span><div><div class="mini-title">月命星</div><strong id="b-month-star"></strong></div></div><div id="b-adjust" class="star-foot"></div></div></div>
 <div class="panel-heading"><h3>4つの相性から見えてくること</h3><p>五角形の太い矢印は、支えや刺激が向かう方向を示します。カードを選ぶと詳細を表示。</p></div><div class="matrix" id="matrix"></div><div class="details-panel" id="relation-detail"></div>
 <div class="panel-heading"><h3>最大吉方の持ち合い</h3><p>本命星と月命星の両方から判定</p></div><div class="glass kippou"><div class="kippou-grid"><div><h4>あなたの最大吉方</h4><div id="a-kippou" class="number-chips"></div><div id="a-match" class="matched"></div></div><div><h4>お相手の最大吉方</h4><div id="b-kippou" class="number-chips"></div><div id="b-match" class="matched"></div></div></div><p class="kippou-explain" id="kippou-overall"></p></div><div class="note-card" id="caution-notes"></div></section>
-<footer class="footer"><b>九星気学 相性診断</b><br>九星気学の解釈は伝統的な占術による参考情報です。現実の人間関係を決定するものではありません。<br>節入りは天文計算に基づく日本標準時で判定。出生地・流派による違いは今後検証予定です。</footer>
+<footer class="footer"><b>九星気学 相性鑑定</b><br>九星気学の解釈は伝統的な占術による参考情報です。現実の人間関係を決定するものではありません。<br>節入りは天文計算に基づく日本標準時で判定。出生地・流派による違いは今後検証予定です。</footer>
 </main>
 <div class="year-modal hidden" id="year-modal" role="dialog" aria-modal="true" aria-labelledby="year-modal-title" tabindex="-1">
   <div class="year-backdrop" data-close-year></div>
   <div class="year-sheet" role="document">
-    <div class="year-sheet-head"><div><div class="year-sheet-eyebrow">生まれ年を選択</div><h2 id="year-modal-title">生まれ年</h2></div><button type="button" id="year-modal-close" class="year-close" aria-label="年の選択を閉じる">×</button></div>
-    <p class="year-hint" id="year-modal-hint"></p>
+    <div class="year-sheet-head"><div><div class="year-sheet-eyebrow">生まれ年を選択</div><h2 id="year-modal-title">生まれ年</h2></div><button type="button" id="year-modal-close" class="year-close" aria-label="年の選択を閉じる"><span aria-hidden="true">×</span></button></div>
+    
     <div class="year-scroll" id="year-scroll" role="group" aria-label="生まれ年一覧"></div>
   </div>
 </div>
@@ -103,7 +123,6 @@ function openYearPicker(who){
   const thisYear=Number(new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Tokyo',year:'numeric'}).format(new Date()));
   const chosen=Number($(who+'y').value),target=chosen||Math.max(1900,thisYear-50);
   $('year-modal-title').textContent=(who==='a'?'あなた':'お相手')+'の生まれ年';
-  $('year-modal-hint').textContent='現在は'+thisYear+'年です。選びやすいように50歳前後の年代から表示しています。';
   list.replaceChildren();
   const fragment=document.createDocumentFragment();
   for(let y=thisYear;y>=1900;y--){
@@ -145,7 +164,16 @@ function initSelects(){
   for(let y=thisYear;y>=1900;y--)Y.append(opt(y,y+'年'));
   $(who+'y-trigger').addEventListener('click',()=>openYearPicker(who));
   for(let m=1;m<=12;m++)M.append(opt(m,m+'月'));
-  const fillDays=()=>{const prev=Number(D.value);D.replaceChildren(opt('','日'));let total=31;if(Number(Y.value)&&Number(M.value))total=new Date(Number(Y.value),Number(M.value),0).getDate();for(let d=1;d<=total;d++)D.append(opt(d,d+'日'));if(prev<=total)D.value=String(prev); else D.value=''; updateInputAlerts()};
+  const fillDays=()=>{
+    const selectedDay=D.value;
+    D.replaceChildren(opt('','日'));
+    let total=31;
+    if(Number(Y.value)&&Number(M.value))total=new Date(Number(Y.value),Number(M.value),0).getDate();
+    for(let d=1;d<=total;d++)D.append(opt(d,d+'日'));
+    // 未選択('')をNumberで0に変換すると「日」が消えるため、未選択を保持する。
+    D.value=(selectedDay!==''&&Number(selectedDay)>=1&&Number(selectedDay)<=total)?selectedDay:'';
+    updateInputAlerts();
+  };
   Y.addEventListener('change',fillDays);M.addEventListener('change',fillDays);D.addEventListener('change',updateInputAlerts);
   const H=$(who+'h'),Mi=$(who+'min');for(let i=0;i<24;i++)H.append(opt(i,String(i).padStart(2,'0')+'時'));for(let i=0;i<60;i++)Mi.append(opt(i,String(i).padStart(2,'0')+'分'));
   H.value='12';Mi.value='0';
