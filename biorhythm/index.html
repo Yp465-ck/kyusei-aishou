@@ -118,11 +118,24 @@ footer{text-align:center;color:#82786a;font-size:12px;padding:25px 0}
  .year-row{grid-template-columns:repeat(9,105px)}.explain{grid-template-columns:1fr}.explain article{padding:18px}
 }
 @media(max-width:360px){.input-controls{grid-template-columns:1fr}.control-label{grid-row:auto}.star-picker{grid-column:1;grid-row:auto}.year-control{grid-column:1;grid-row:auto}}
+.year-control{flex-shrink:0}.year-control button:disabled{opacity:.35;cursor:not-allowed}
+.year-picker{width:115px;min-height:44px;border:0;border-left:1px solid #ded5c6;border-right:1px solid #ded5c6;background:#fff;padding:7px 9px;font-weight:700;text-align:center;font-size:17px}
+.cycle-section{margin-top:2px}.cycle-lead{color:var(--muted);font-size:13px;margin:-3px 0 13px}
+.cycle-scroll{overflow-x:auto;overscroll-behavior-x:contain;background:linear-gradient(#fffefa,#f9f5eb);border:1px solid var(--line);border-radius:15px;padding:10px 12px;scrollbar-width:thin}
+.cycle-chart{min-width:790px;max-width:1050px;margin:auto}
+.cycle-chart svg{display:block;width:100%;height:auto}
+.cycle-node{cursor:pointer;outline:none}.cycle-node .cycle-halo{fill:#e5ede4;stroke:#aac2af;stroke-width:1}.cycle-node .cycle-dot{fill:#53856d;stroke:#fff;stroke-width:3}
+.cycle-node.active .cycle-halo{fill:#f8edcb;stroke:#b68a3d;stroke-width:3}.cycle-node.active .cycle-dot{fill:#b48739}
+.cycle-node .cycle-star{font:bold 16px "Yu Mincho",serif;fill:#315947}.cycle-node .cycle-year{font:700 14px system-ui,sans-serif;fill:#6c6252}
+.cycle-node.active .cycle-star,.cycle-node.active .cycle-year{fill:#8c6427}.cycle-node.out-of-range{opacity:.35;cursor:default}
+.cycle-node:focus-visible .cycle-halo{stroke:#2b5c48;stroke-width:5}.cycle-details{margin-top:12px;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:#fffefa}
+.cycle-details summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--green)}.cycle-details .year-track{margin-top:12px}.year-card:disabled{opacity:.45;cursor:not-allowed}
+@media(max-width:680px){.year-picker{width:90px;min-height:42px;font-size:15px;padding:5px}.cycle-chart{min-width:790px}}
 </style></head><body>
 <header class="topbar"><div class="top-inner"><a class="brand" href="/">九星気学ツール</a><nav class="site-nav" aria-label="九星気学ツールのメニュー"><a href="/">相性鑑定</a><a class="active" aria-current="page" href="/biorhythm/">バイオリズム</a><a href="/direction/">吉方位</a><a class="external" href="https://uranai-birthday.vercel.app/" target="_blank" rel="noopener noreferrer">総合鑑定 ↗</a></nav></div></header>
 <main>
 <section class="hero"><div class="eyebrow">NINE STAR KI · BIORHYTHM</div><h1>気学的バイオリズムを学ぶ</h1><p>後天定位盤と年盤を照らし合わせて、運気の9年周期を読み解きます。</p></section>
-<section class="panel input-panel"><div class="input-row"><h2 class="h2small"><span class="num">1</span> 本命星と年を選ぶ</h2><div class="input-controls"><label for="star-select" class="control-label">本命星</label><select id="star-select" class="star-picker" aria-label="本命星を選択"></select><label class="control-label" for="year-prev">調べる年</label><div class="year-control"><button id="year-prev" aria-label="1年前に戻る" type="button">‹</button><strong id="year-label">2026年</strong><button id="year-next" type="button" aria-label="1年進める">›</button></div></div></div><p class="notice">本命星を選び、年を切り替えると、九星盤と9年間の流れが連動します。</p></section>
+<section class="panel input-panel"><div class="input-row"><h2 class="h2small"><span class="num">1</span> 本命星と年を選ぶ</h2><div class="input-controls"><label for="star-select" class="control-label">本命星</label><select id="star-select" class="star-picker" aria-label="本命星を選択"></select><label class="control-label" for="year-select">調べる年</label><div class="year-control"><button id="year-prev" aria-label="1年前に戻る" type="button">‹</button><select id="year-select" class="year-picker" aria-label="調べる年を直接選択"></select><button id="year-next" type="button" aria-label="1年進める">›</button></div></div></div><p class="notice">本命星を選び、年を切り替えると、九星盤と9年間の流れが連動します。</p></section>
 <section class="verdict" aria-live="polite"><div class="tag" id="year-verdict">2026年の結論</div><div class="verdict-main"><h2 id="verdict-title"></h2><div class="labels" id="verdict-tags"></div></div><p class="verdict-p" id="verdict-description"></p></section>
 <div class="board-layout" id="board-layout" data-mode="annual">
 <div class="board-switch" role="tablist" aria-label="九星盤の表示方法"><button type="button" role="tab" aria-selected="true" data-view="annual">年盤</button><button type="button" role="tab" aria-selected="false" data-view="fixed">定位盤</button><button type="button" role="tab" aria-selected="false" data-view="both">比較</button></div>
@@ -132,7 +145,7 @@ footer{text-align:center;color:#82786a;font-size:12px;padding:25px 0}
 </div></div>
 <section class="panel lesson" aria-live="polite"><div class="lesson-top"><h2>どうしてこの年のバイオリズムになるの？</h2><span class="notice">年盤と定位盤の同じ場所を比べます</span></div>
 <div class="lesson-steps"><div class="lesson-step">年盤の本命星<strong id="lesson-star"></strong></div><div class="lesson-arrow">→</div><div class="lesson-step">その位置<strong id="lesson-direction"></strong></div><div class="lesson-arrow">→</div><div class="lesson-step final">定位盤で読む星<strong id="lesson-result"></strong></div></div><p id="lesson-text"></p></section>
-<section><h2 class="section-heading">9年間の流れ</h2><div class="year-track"><div class="year-row" id="year-row"></div></div><p class="notice">年を選ぶと、上の年盤と解説も切り替わります。横方向にスクロールして確認できます。</p></section>
+<section class="cycle-section"><h2 class="section-heading">9年間の流れ</h2><p class="cycle-lead">いま見ている年を含む9年サイクルです。グラフの年を選ぶと、年盤と解説も切り替わります。</p><div class="cycle-scroll" role="region" aria-label="9年間の運気の流れ、横スクロールできます" tabindex="0"><div id="cycle-chart" class="cycle-chart"></div></div><p class="notice">※高さは各段階の移り変わりを理解するためのイメージで、運気の強さを測定した数値ではありません。</p><details class="cycle-details"><summary>9年分をカード一覧でも確認する</summary><div class="year-track"><div class="year-row" id="year-row"></div></div></details></section>
 <section class="explain"><article class="panel"><h3><span class="ico">✦</span> この年のテーマ</h3><p id="theme-text"></p></article><article class="panel"><h3><span class="ico">✦</span> 心構え</h3><p id="mindset-text"></p></article></section>
 <div class="footnote">九星気学の年盤は原則として立春の節入りで切り替わります。ここでは選択した年の立春以降の年盤を表示しています。バイオリズムは伝統的な占術の解釈であり、行動や人生を決定するものではありません。方位の吉凶判定（吉方位・凶方位）とは別の機能です。</div>
 <footer>九星気学ツール · バイオリズム学習用</footer></main>
@@ -158,7 +171,9 @@ function makeGrid(values,index,cls){
 }
 function render(){
  const data=reading(state.year,state.star),stage=data.stage;
- $('year-label').textContent=state.year+'年';
+ $('year-select').value=String(state.year);
+ $('year-prev').disabled=state.year<=1900;
+ $('year-next').disabled=state.year>=2100;
  $('year-verdict').textContent=state.year+'年の結論';
  $('verdict-title').innerHTML=NAME[state.star]+'のあなたは <em>「'+NAME[stage]+'の年」</em>';
  $('verdict-tags').innerHTML='<span>第'+stage+'段階</span><span>'+data.dir+'</span><span>'+TITLE[stage]+'</span>';
@@ -173,8 +188,30 @@ function render(){
  $('lesson-text').textContent=state.year+'年の年盤で'+NAME[state.star]+'は「'+data.dir+'」にあります。同じ「'+data.dir+'」の宮は後天定位盤で'+NAME[stage]+'の位置なので、この年は第'+stage+'段階のバイオリズムとして読みます。';
  $('theme-text').textContent=DESC[stage];
  $('mindset-text').textContent=MIND[stage];
- $('year-row').innerHTML=Array.from({length:9},(_,i)=>{const y=state.year+i,s=reading(y,state.star).stage;return '<button type="button" class="year-card'+(i===0?' current':'')+'" data-year="'+y+'" aria-label="'+y+'年 '+NAME[s]+' 第'+s+'段階"'+(i===0?' aria-current="true"':'')+'><span class="y">'+y+'年</span><strong>'+SHORT[s]+'</strong><small>'+TITLE[s]+'</small></button>'}).join('');
- $('year-row').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{state.year=Number(b.dataset.year);render();$('verdict-title').scrollIntoView({behavior:'smooth',block:'center'})}));
+ const cycleStart=state.year-stage+1;
+ renderCycle(cycleStart);
+ $('year-row').innerHTML=Array.from({length:9},(_,i)=>{const y=cycleStart+i,s=reading(y,state.star).stage,current=y===state.year;return '<button type="button" class="year-card'+(current?' current':'')+'" data-year="'+y+'" '+(y<1900||y>2100?'disabled ':'')+'aria-label="'+y+'年 '+NAME[s]+' 第'+s+'段階"'+(current?' aria-current="true"':'')+'><span class="y">'+y+'年</span><strong>'+SHORT[s]+'</strong><small>'+TITLE[s]+'</small></button>'}).join('');
+ $('year-row').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>selectYear(Number(b.dataset.year))));
+}
+function selectYear(year){
+ if(!Number.isInteger(year)||year<1900||year>2100)return;
+ state.year=year;render();
+}
+function renderCycle(startYear){
+ const levels=[1.1,2.0,3.2,4.35,5.1,4.55,3.9,3.0,1.9], entries=levels.map((lev,i)=>{
+  const year=startYear+i,stage=reading(year,state.star).stage;
+  return {year,stage,x:72+i*113,y:255-lev*37,selected:year===state.year,valid:year>=1900&&year<=2100};
+ });
+ const line=entries.map((d,i)=>(i?'L':'M')+d.x+' '+d.y).join(' ');
+ const nodes=entries.map(d=>'<g class="cycle-node'+(d.selected?' active':'')+(d.valid?'':' out-of-range')+'" data-year="'+d.year+'" tabindex="'+(d.valid?'0':'-1')+'" role="button" aria-label="'+d.year+'年 '+NAME[d.stage]+' '+TITLE[d.stage]+(d.selected?'、選択中':'')+'"><title>'+d.year+'年 '+NAME[d.stage]+'：'+TITLE[d.stage]+'</title><circle class="cycle-halo" cx="'+d.x+'" cy="'+d.y+'" r="'+(d.selected?22:17)+'"/><circle class="cycle-dot" cx="'+d.x+'" cy="'+d.y+'" r="'+(d.selected?11:8)+'"/><text class="cycle-star" x="'+d.x+'" y="'+(d.y-30)+'" text-anchor="middle">'+SHORT[d.stage]+'</text><text class="cycle-year" x="'+d.x+'" y="295" text-anchor="middle">'+d.year+'年</text></g>').join('');
+ $('cycle-chart').innerHTML='<svg viewBox="0 0 1050 325" role="img" aria-label="9年間のバイオリズム、選択した年を強調する山型グラフ"><line x1="46" x2="1000" y1="269" y2="269" stroke="#c5bca8" stroke-width="1.5"/><path d="'+line+'" fill="none" stroke="#49735e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>'+nodes+'</svg>';
+ $('cycle-chart').querySelectorAll('.cycle-node').forEach(node=>{
+  const activate=()=>selectYear(Number(node.dataset.year));
+  node.addEventListener('click',activate);
+  node.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();activate()}});
+ });
+ const scroll=document.querySelector('.cycle-scroll'),idx=entries.findIndex(d=>d.selected);
+ if(scroll&&idx>=0){scroll.scrollLeft=Math.max(0,entries[idx].x*(scroll.scrollWidth/1050)-scroll.clientWidth/2)}
 }
 function setMode(mode){state.mode=mode;$('board-layout').dataset.mode=mode;document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-selected',b.dataset.view===mode?'true':'false'))}
 function init(){
@@ -182,8 +219,11 @@ function init(){
  for(let i=1;i<=9;i++){const op=document.createElement('option');op.value=i;op.textContent=NAME[i];select.append(op)}
  select.value=state.star;
  select.addEventListener('change',()=>{state.star=Number(select.value);render()});
- $('year-prev').addEventListener('click',()=>{state.year--;render()});
- $('year-next').addEventListener('click',()=>{state.year++;render()});
+ const yearSelect=$('year-select');
+ for(let y=1900;y<=2100;y++){const op=document.createElement('option');op.value=y;op.textContent=y+'年';yearSelect.append(op)}
+ yearSelect.addEventListener('change',()=>selectYear(Number(yearSelect.value)));
+ $('year-prev').addEventListener('click',()=>selectYear(state.year-1));
+ $('year-next').addEventListener('click',()=>selectYear(state.year+1));
  document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.view)));
  render();
 }
