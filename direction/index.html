@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f8f6f2"><title>吉方位｜九星気学ツール</title>
+<style>
+:root{--bg:#f8f6f2;--paper:#fffefa;--ink:#282621;--muted:#736e67;--line:#e7dfd4;--gold:#b18b49;--green:#387d71;--sea:#eaf6f1;--red:#aa5c55;--dark:#2a2622}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans CJK JP','Hiragino Kaku Gothic ProN','Yu Gothic',system-ui,sans-serif;font-size:15px;line-height:1.7}h1,h2,h3{font-family:'Yu Mincho','Hiragino Mincho ProN',serif}a{color:inherit;text-decoration:none}button,select,input{font:inherit}button{cursor:pointer}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #d4ad5e;outline-offset:2px}
+.topbar{background:var(--dark);color:#fff4dd}.top-inner{max-width:1080px;margin:auto;padding:13px 22px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}.brand{font:700 17px 'Yu Mincho',serif;letter-spacing:.08em}.site-nav{display:flex;gap:8px;flex-wrap:wrap}.site-nav a{padding:7px 10px;border-radius:7px;font-size:12px;color:#e8e2d9}.site-nav a.current{background:#f1e1bf;color:#35291b;font-weight:bold}.page{width:min(100% - 32px,1050px);margin:auto;padding-bottom:72px}.hero{text-align:center;padding:44px 0 30px}.eyebrow{font-size:11px;font-weight:700;color:#96723b;letter-spacing:.2em}.hero h1{font-size:clamp(27px,4.8vw,40px);margin:10px 0 8px}.hero p{color:var(--muted);margin:0;font-size:14px}.rule{width:40px;height:3px;background:var(--gold);margin:18px auto 0;border-radius:8px}.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 24px #33281b0a;padding:24px}.columns{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}.section-title{font-size:21px;margin:0 0 15px}.section-title small{font:500 12px sans-serif;color:var(--muted);margin-left:8px}.field{display:block;margin:0 0 15px}.field>span{display:block;font-weight:700;font-size:12px;color:#625d55;margin-bottom:7px}.field input,.field select{width:100%;min-height:47px;padding:9px 11px;border:1px solid #d9cdbd;border-radius:10px;background:#fff;color:#26221c}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.muted{color:var(--muted);font-size:12px}.notice{margin:10px 0 0;padding:12px 14px;border-radius:10px;background:#fcf4e6;color:#785d32;font-size:12px;border:1px solid #e9d9b6}.err{color:#a13e38;font-size:13px;min-height:20px}.primary{border:0;border-radius:11px;background:#29231e;color:#f6e3bb;width:100%;padding:14px;font-weight:bold;letter-spacing:.08em}.results{margin-top:24px}.results[hidden]{display:none}.banner{border-radius:17px;padding:22px;background:#29231f;color:#fff9ee;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}.banner strong{font:700 24px 'Yu Mincho',serif}.banner small{color:#ead6ac}.metrics{display:flex;gap:6px;flex-wrap:wrap}.pill{border-radius:99px;padding:4px 10px;background:#e6efe9;color:#27594e;font-size:12px;font-weight:700}.pill.avoid{background:#f9eae7;color:#9d4d46}.pill.neutral{background:#f4eee4;color:#725e3c}.subheading{font-size:21px;margin:28px 0 14px}.plate-note{font-size:12px;color:var(--muted);margin:-8px 0 14px}.plate{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;max-width:500px;margin:0 auto}.dir{background:#fff;border:1px solid #dcd2c4;border-radius:12px;min-height:120px;padding:11px 9px;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px}.dir.best{border:2px solid #3b9276;background:#eaf6f0}.dir.ok{border-color:#9cbab0;background:#f4faf6}.dir.bad{background:#fbf1ee;border-color:#d6a19a}.dir.center{background:#f2ede5;border-color:#d1c7b8}.direction-name{font-size:12px;color:#615950;font-weight:700}.star-name{font:bold 21px 'Yu Mincho',serif}.status{font-size:11px;font-weight:700}.dir.best .status{color:#23785e}.dir.bad .status{color:#a45049}.dir.ok .status{color:#3c7d69}.legend{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin:14px 0 0}.reasons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.reason{border:1px solid var(--line);background:#fff;border-radius:12px;padding:14px}.reason h3{font:700 15px sans-serif;margin:0 0 6px}.reason p{font-size:13px;margin:4px 0;color:#59534b}.steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}.step{border:1px solid var(--line);background:#fff;border-radius:10px;padding:12px 9px;font-size:12px}.step b{display:block;color:#93713f}.divider{height:1px;background:var(--line);margin:25px 0}.danger-note{padding:12px;border-radius:10px;background:#fbf4e9;color:#6a5640;font-size:12px}.footer{font-size:12px;color:var(--muted);margin-top:20px;text-align:center}
+@media(max-width:720px){.columns,.reasons{grid-template-columns:1fr}.card{padding:18px}.hero{padding:36px 0 25px}.plate{gap:5px}.dir{min-height:105px;padding:7px 3px}.star-name{font-size:18px}.status{font-size:10px}.steps{grid-template-columns:1fr 1fr}.top-inner{gap:8px}.site-nav a{padding:6px;font-size:11px}.two{grid-template-columns:1fr 1fr}}
+</style></head><body>
+<header class="topbar"><div class="top-inner"><a class="brand" href="/">九星気学ツール</a><nav class="site-nav" aria-label="メニュー"><a href="/">相性鑑定</a><a href="/biorhythm/">バイオリズム</a><a href="/direction/" class="current" aria-current="page">吉方位</a><a href="https://uranai-birthday.vercel.app/" target="_blank" rel="noopener noreferrer">総合鑑定 ↗</a></nav></div></header>
+<main class="page">
+<section class="hero"><div class="eyebrow">NINE STAR KI · DIRECTION</div><h1>吉方位を、読み解く。</h1><p>年盤と本命星・月命星から、方位を学びながら確認できます。</p><div class="rule"></div></section>
+<section class="card"><h2 class="section-title">1. 調べたい人と年を入力</h2><div class="columns"><div>
+<label class="field"><span>生年月日（必須）</span><input type="date" id="birth" min="1900-01-01" max="2100-12-31" value="1994-04-03" required></label>
+<div class="two"><label class="field"><span>出生時刻（任意）</span><input type="time" id="birthtime"></label><label class="field"><span>調べる年</span><select id="year"></select></label></div>
+<label class="field" style="max-width:260px"><span>出生時刻が分からない場合</span><select id="timeMode"><option value="unknown">12:00で仮計算</option><option value="known">出生時刻を入力する</option></select></label>
+<div class="err" id="error" role="alert"></div><button class="primary" id="calculate">年盤で吉方位を確認する →</button>
+</div><aside><p class="muted" style="font-size:13px;margin-top:0">このページは講義資料の年盤を用いた学習用です。結果に出てくる「吉」は、五黄殺・暗剣殺・歳破・本命殺・月命殺を除外して残った方角を指します。</p><div class="notice">年盤だけの判定です。月盤・日盤、現住所からの実際の目的地方角、移動距離などは含まれません。実際の旅行・引っ越しでは別途確認してください。</div></aside></div></section>
+<section class="results" id="results" hidden aria-live="polite">
+<div class="banner"><div><small id="period"></small><div><strong id="headline"></strong></div><div id="subline" style="font-size:13px;margin-top:7px"></div></div><div class="metrics" id="metrics"></div></div>
+<h2 class="subheading">2. 年盤で方角を確認</h2><p class="plate-note">講義資料の気学盤に合わせて「南が上・北が下・東が左・西が右」の配置です。方角は居住地から見た方向を意味します。</p>
+<div class="card"><div class="plate" id="plate" aria-label="九星気学の年盤"></div><div class="legend"><span class="pill">◎ 最大吉方位</span><span class="pill">○ 吉方位</span><span class="pill avoid">— 対象外</span><span class="pill neutral">中央（方位なし）</span></div><div class="muted" id="starline" style="text-align:center;margin-top:15px"></div></div>
+<h2 class="subheading">3. 各方位の判定理由</h2><div class="reasons" id="reasons"></div>
+<h2 class="subheading">4. 5ステップで確認</h2><div class="steps"><div class="step"><b>STEP 1</b>対象年の中宮星を確認</div><div class="step"><b>STEP 2</b>本命星と月命星を確認</div><div class="step"><b>STEP 3</b>共通の凶方位を除外</div><div class="step"><b>STEP 4</b>個人の凶方位を除外</div><div class="step"><b>STEP 5</b>残った中から最大吉方位を選ぶ</div></div>
+<div class="danger-note" style="margin-top:20px">方位は人生の判断を縛るものではなく、行き先を選ぶときの参考情報です。避けられない移動を必要以上に心配する必要はありません。また、年盤と月盤の両方が関係する日程を年盤だけで確定することはできません。</div></section>
+<div class="footer">九星気学ツール · 吉方位（年盤）</div></main>
+<script src="/terms.js"></script>
+<script>
+'use strict';
+const $=id=>document.getElementById(id),mod=(n,m)=>((n%m)+m)%m;
+const starNames=['','一白水星','二黒土星','三碧木星','四緑木星','五黄土星','六白金星','七赤金星','八白土星','九紫火星'];
+const element=[null,4,2,0,0,2,3,3,2,1]; // index 木0 火1 土2 金3 水4
+const locs=[{d:'南東',num:4},{d:'南',num:9},{d:'南西',num:2},{d:'東',num:3},{d:'中央',num:5},{d:'西',num:7},{d:'北東',num:8},{d:'北',num:1},{d:'北西',num:6}];
+const opposites={'南':'北','北':'南','東':'西','西':'東','南東':'北西','北西':'南東','南西':'北東','北東':'南西'};
+const zodiac=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+const zodiacDir=['北','北東','北東','東','南東','南東','南','南西','南西','西','北西','北西'];
+const fortune=['','万物の始まり・新しい出会い','安心・安定、継続','発展・行動力','出会い・信頼、環境づくり','吉方位として使用しない','権威・資格、事業','人脈・金運、ご縁','変化・転換','名誉・昇進'];
+function starOn(center,base){return mod(base+center-5-1,9)+1}
+function annualCenter(y){return mod(2022-y+4,9)+1} // 2022年は五黄中宮
+function favorable(s,t){const delta=mod(element[t]-element[s],5);return [0,1,4].includes(delta)}
+function maximumStars(n,m){return [1,2,3,4,5,6,7,8,9].filter(t=>t!==5&&t!==n&&t!==m&&favorable(n,t)&&favorable(m,t))}
+function getPerson(date,time){const key=date+'T'+time;const b=terms.filter(x=>x<=key).at(-1);if(!b)throw Error('対応外の生年月日です。');const ym=Number(b.slice(5,7)),by=Number(b.slice(0,4))-(ym===1?1:0);const n=mod(1-by,9)+1;const monthBase=({1:8,2:2,0:5})[n%3];const m=mod(monthBase-1-mod(ym-2,12),9)+1;return {n,m,b,by,ym}}
+function checkBirth(date,t,mode){if(!date)throw Error('生年月日を入力してください。');if(mode==='known'&&!t)throw Error('出生時刻を入力してください。');const time=mode==='known'?t:'12:00';const b=getPerson(date,time);return { ...b,approx:mode==='unknown',border:terms.some(x=>x.slice(0,10)===date)}}
+function render(){
+ $('error').textContent='';$('results').hidden=true;
+ try{
+  const date=$('birth').value, t=$('birthtime').value, mode=$('timeMode').value, y=Number($('year').value);
+  const p=checkBirth(date,t,mode);if(!Number.isInteger(y)||y<1900||y>2100)throw Error('調べる年を選んでください。');
+  const feb=terms.find(x=>x.startsWith(String(y)+'-02-'));const next=terms.find(x=>x.startsWith(String(y+1)+'-02-'));
+  const cent=annualCenter(y),n=p.n,m=p.m,max=maximumStars(n,m),seih=opposites[zodiacDir[mod(y-4,12)]];
+  const starDirs={};locs.forEach(l=>{starDirs[starOn(cent,l.num)]=l.d});
+  const five=starDirs[5],ank=opposites[five]||null;
+  const all=locs.map(l=>{const s=starOn(cent,l.num),reasons=[];
+    if(l.d!=='中央'){
+      if(l.d===five)reasons.push('五黄殺');
+      if(l.d===ank)reasons.push('暗剣殺');
+      if(l.d===seih)reasons.push('歳破');
+      if(n!==5&&l.d===starDirs[n])reasons.push('本命殺');
+      if(m!==5&&l.d===starDirs[m])reasons.push('月命殺');
+    }
+    const status=l.d==='中央'?'center':reasons.length?'bad':max.includes(s)?'best':'ok';
+    return {...l,s,reasons,status};
+  });
+  const good=all.filter(l=>l.status==='ok'||l.status==='best'),best=all.filter(l=>l.status==='best');
+  $('period').textContent=y+'年の年盤（'+zodiac[mod(y-4,12)]+'年）';
+  $('headline').textContent=best.length?'最大吉方位：'+best.map(l=>l.d).join('・'):'最大吉方位の該当なし';
+  $('subline').textContent='吉方位 '+good.length+'方向 ／ 中宮 '+starNames[cent]+' ／ 本命 '+starNames[n]+' ／ 月命 '+starNames[m];
+  $('metrics').innerHTML='<span class="pill">最大吉方位 '+best.length+'</span><span class="pill neutral">その他の吉方位 '+(good.length-best.length)+'</span>';
+  $('starline').textContent='最大吉方の星：'+(max.length?max.map(k=>starNames[k]).join('・'):'該当なし')+'（本命・月命の双方にとって相生・比和）';
+  $('plate').innerHTML=all.map(l=>'<div class="dir '+l.status+'" aria-label="'+l.d+'：'+starNames[l.s]+'、'+(l.reasons.join('・')||l.status)+'"><div class="direction-name">'+l.d+'</div><div class="star-name">'+starNames[l.s]+'</div><div class="status">'+(l.status==='best'?'◎ 最大吉方位':l.status==='ok'?'○ 吉方位':l.status==='center'?'中宮':'— '+l.reasons.join('・'))+'</div></div>').join('');
+  $('reasons').innerHTML=all.filter(l=>l.d!=='中央').map(l=>'<article class="reason"><h3>'+l.d+' <span class="pill '+(l.status==='bad'?'avoid':l.status==='ok'?'neutral':'')+'">'+(l.status==='bad'?'対象外':l.status==='best'?'最大吉方位':'吉方位')+'</span></h3><p>'+starNames[l.s]+'：'+fortune[l.s]+'</p><p>'+(l.reasons.length?'判定理由：'+l.reasons.join('、'):(l.status==='best'?'5つの除外条件に該当せず、最大吉方の星と一致':'5つの除外条件に該当しないため吉方位'))+'</p></article>').join('');
+  const cautions=[];
+  if(p.border&&p.approx)cautions.push('出生した日が節入り日です。出生時刻が不明なため12:00で仮計算しています。');
+  if(p.n===p.m)cautions.push('本命星と月命星が同じ命式です。講座の読替表の運用については要確認のため、生の本命・月命で仮表示しています。');
+  if(!feb||!next)cautions.push('この年の立春の正確な時刻は表示対象外です。年盤は立春を境に切り替わります。');
+  else $('period').textContent+='｜'+feb.replace('T',' ')+' ～ '+next.replace('T',' ')+'（日本時間）';
+  if(cautions.length)$('starline').textContent+='　※'+cautions.join(' ');
+  $('results').hidden=false;
+  $('results').scrollIntoView({behavior:'smooth',block:'start'});
+ }catch(e){$('error').textContent=e.message||'計算できませんでした。'}
+}
+for(let y=1900;y<=2099;y++){const opt=document.createElement('option');opt.value=y;opt.textContent=y+'年';$('year').append(opt)}
+$('year').value='2026';$('calculate').addEventListener('click',render);
+$('timeMode').addEventListener('change',()=>{$('birthtime').disabled=$('timeMode').value==='unknown';$('error').textContent=''});
+$('birthtime').disabled=true;
+</script></body></html>
